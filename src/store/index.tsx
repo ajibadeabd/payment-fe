@@ -1,12 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import userConfigSlice from './user.store/userSlice';
-import businessConfigSlice from './business.store/businessSlice';
-import channelConfigSlice from './channels/channelSlice';
+import accountConfigSlice from './account.store/accountSlice';
 
 const rootReducer = combineReducers({
     user: userConfigSlice,
-    business: businessConfigSlice,
-    channel: channelConfigSlice,
+    account: accountConfigSlice
 });
 
 export default configureStore({

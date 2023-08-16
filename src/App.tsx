@@ -4,7 +4,7 @@ import Routes from "./Routes";
 import store, { IRootState } from './store/index';
 import { toast } from 'react-toastify';
 import { reset as userReset } from './store/user.store/userSlice';
-import { reset } from './store/business.store/businessSlice';
+import { reset } from './store/account.store/accountSlice';
 
 
 import { Provider, useDispatch, useSelector } from 'react-redux';

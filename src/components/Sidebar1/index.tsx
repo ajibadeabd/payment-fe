@@ -135,6 +135,19 @@ const Sidebar1: React.FC<Sidebar1Props> = (props) => {
                 </Text>
               </div> */}
             </div>
+            <div className="flex flex-row gap-5 items-center justify-start w-[96%] md:w-full">
+                <Img
+                  className="h-[25px] w-[25px]"
+                  src="images/img_file.svg"
+                  alt="file"
+                />
+                <Text
+                  className="text-bluegray-400 text-lg"
+                  size="txtInterMedium18Bluegray400"
+                >
+                  Profile
+                </Text>
+              </div>
             <div className="flex flex-row items-center justify-start w-[74%] md:w-full">
               <Line className="bg-indigo-600 h-[60px] rounded-br-[10px] rounded-tr-[10px] w-1.5" />
               {/* <Img

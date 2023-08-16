@@ -1,17 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // import { Sidebar } from "react-pro-sidebar";
 import { useNavigate } from "react-router-dom";
+// import { getAccountDashboard } from "store/user.store/userSlice";
 
 import { Button, Img, Sidebar1, Input, Line, List, Text } from "components";
 
 import { CloseSVG } from "../../assets/images";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccountDashboard } from "store/account.store/accountSlice";
 
 const MainDashboardPage: React.FC = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const { Accounts ,transactions } = useSelector((state: any) => state.account);
   const [groupeightvalue, setGroupeightvalue] = React.useState<string>("");
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  
+  useEffect(()=>{
+    dispatch(getAccountDashboard() as any )
+  },[])
 
+
+  const formatDate = (inputTimestamp)=>{
+    const date = new Date(inputTimestamp);
+    const day = date.getUTCDate();
+    const monthIndex = date.getUTCMonth();
+    const year = date.getUTCFullYear();
+    
+    const formattedDate = `${day} ${months[monthIndex]} ${year}`;
+    console.log(formattedDate)
+return formattedDate; // Output: "14 August 2023"
+
+  }
   return (
     <>
       <div className="bg-gray-100 flex sm:flex-col md:flex-col flex-row font-inter sm:gap-5 md:gap-5 items-start mx-auto pb-[30px] w-full">
@@ -162,7 +186,8 @@ const MainDashboardPage: React.FC = () => {
                         }
                       ></Input>
                     </div> */}
-                    <div className="bg-indigo-500 flex md:flex-1 flex-col gap-[33px] items-center justify-end pt-6 rounded-[25px] w-[48%] md:w-full">
+                    {Accounts.map((account,i)=>{
+                 return    <div key={i} className="bg-indigo-500 flex md:flex-1 flex-col gap-[33px] items-center justify-end pt-6 rounded-[25px] w-[48%] md:w-full">
                       <div className="flex flex-col gap-[29px] items-start justify-start w-[87%] md:w-full">
                         <div className="flex flex-row items-start justify-between w-full">
                           <div className="flex flex-col items-start justify-start">
@@ -176,7 +201,7 @@ const MainDashboardPage: React.FC = () => {
                               className="mt-1 text-white-A700 text-xl"
                               size="txtInterRegular20"
                             >
-                              $5,756
+                                ₦ {account.balance}
                             </Text>
                           </div>
                           <Img
@@ -218,7 +243,7 @@ const MainDashboardPage: React.FC = () => {
                       </div>
                       <Input
                         name="Group319 One"
-                        placeholder="3778 **** **** 1234"
+                        placeholder={account._id}
                         className="leading-[normal] md:text-xl p-0 placeholder:text-white-A700 sm:pl-5 sm:text-lg text-[22px] text-left text-white-A700 w-full"
                         wrapClassName="bg-gradient  flex pl-6 py-[21px] rounded-bl-[25px] rounded-br-[25px] w-full"
                         suffix={
@@ -230,6 +255,8 @@ const MainDashboardPage: React.FC = () => {
                         }
                       ></Input>
                     </div>
+                  })}
+
                   </div>
                 </div>
               </div>
@@ -244,7 +271,9 @@ const MainDashboardPage: React.FC = () => {
                   className="bg-white-A700 flex flex-col gap-2.5 items-center p-6 sm:px-5 rounded-[25px] w-full"
                   orientation="vertical"
                 >
-                  <div className="flex flex-1 flex-row items-center justify-start w-full">
+                  {transactions.map((transaction,key)=>{
+
+                 return  <div className="flex flex-1 flex-row items-center justify-start w-full">
                     <Button className="bg-gray-102 flex h-[55px] items-center justify-center p-[13px] rounded-[50%] w-[55px]">
                       <Img
                         className="h-7"
@@ -257,85 +286,51 @@ const MainDashboardPage: React.FC = () => {
                         className="text-base text-bluegray-600"
                         size="txtInterMedium16"
                       >
-                        Deposit from my Card
+                        {/* Deposit from my Card */}
+                      {transaction.description}
+
                       </Text>
+                     
+
                       <Text
                         className="text-[15px] text-bluegray-400"
                         size="txtInterRegular15Bluegray400"
                       >
-                        28 January 2021
+                        {/* 28 January 2021 */}
+                        {formatDate(transaction.created_at)}
                       </Text>
+
                     </div>
+                    <div 
+                      className="flex flex-col" 
+                      >
+                    
+                    
                     <Text
+    className={`ml-[13px] text-base ${
+      transaction.status === 'success' ? 'text-green-600' : 'text-yellow-500'
+    }`}
+    size="txtInterMedium16"
+  >
+    {transaction.status === 'success' ? 'Success' : 'Pending'}
+  </Text>
+  <Text
                       className="ml-[13px] text-base text-red-700"
                       size="txtInterMedium16Red700"
                     >
-                      -$850
+                    ₦ {transaction.amount}
                     </Text>
-                  </div>
-                  <div className="flex flex-1 flex-row items-center justify-start w-full">
-                    <Button className="bg-gray-102 flex h-[55px] items-center justify-center p-[13px] rounded-[50%] w-[55px]">
-                      <Img
-                        className="h-7"
-                        src="images/img_link.svg"
-                        alt="link"
-                      />
-                    </Button>
-                    <div className="flex flex-col gap-[7px] items-center justify-start ml-[17px]">
-                      <Text
-                        className="text-base text-bluegray-600"
-                        size="txtInterMedium16"
-                      >
-                        Deposit Paypal
-                      </Text>
-                      <Text
-                        className="text-[15px] text-bluegray-400"
-                        size="txtInterRegular15Bluegray400"
-                      >
-                        25 January 2021
-                      </Text>
-                    </div>
-                    <Text
-                      className="ml-[46px] text-base text-green-600"
-                      size="txtInterMedium16Green600"
-                    >
-                      +$2,500
-                    </Text>
-                  </div>
-                  <div className="flex flex-1 flex-row items-center justify-start w-full">
-                    <Button className="bg-gray-102 flex h-[55px] items-center justify-center p-[13px] rounded-[50%] w-[55px]">
-                      <Img
-                        className="h-7"
-                        src="images/img_clock.svg"
-                        alt="clock"
-                      />
-                    </Button>
-                    <div className="flex flex-col gap-[7px] items-start justify-start ml-[17px]">
-                      <Text
-                        className="text-base text-bluegray-600"
-                        size="txtInterMedium16"
-                      >
-                        Jemi Wilson
-                      </Text>
-                      <Text
-                        className="text-[15px] text-bluegray-400"
-                        size="txtInterRegular15Bluegray400"
-                      >
-                        21 January 2021
-                      </Text>
-                    </div>
-                    <Text
-                      className="ml-12 text-base text-green-600"
-                      size="txtInterMedium16Green600"
-                    >
-                      +$5,400
-                    </Text>
-                  </div>
+  </div>
+
+                  </div> 
+                  })}
+
+                  
                 </List>
               </div>
             </div>
             <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between w-full">
-              <div className="flex md:flex-1 flex-col gap-[18px] items-start justify-start w-[66%] md:w-full">
+              {/* <div className="flex md:flex-1 flex-col gap-[18px] items-start justify-start w-[66%] md:w-full">
                 <Text
                   className="text-[22px] text-bluegray-900 sm:text-lg md:text-xl"
                   size="txtInterSemiBold22"
@@ -457,8 +452,8 @@ const MainDashboardPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex md:flex-1 flex-col gap-[18px] items-start justify-start w-[32%] md:w-full">
+              </div> */}
+              {/* <div className="flex md:flex-1 flex-col gap-[18px] items-start justify-start w-[32%] md:w-full">
                 <Text
                   className="text-[22px] text-bluegray-900 sm:text-lg md:text-xl"
                   size="txtInterSemiBold22"
@@ -548,7 +543,7 @@ const MainDashboardPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between w-full">
               <div className="flex md:flex-1 flex-col gap-5 items-start justify-start w-[41%] md:w-full">

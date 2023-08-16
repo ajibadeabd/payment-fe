@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import businessService from './bussinessService';
+import businessService from './accountService';
 
 const initialState: any = {
     users: [],
@@ -14,11 +14,12 @@ const initialState: any = {
     eachConversation: {},
     companyDetails: {},
     departments: [],
+    Accounts:[],transactions:[],
 };
 
-export const addBusinessUser = createAsyncThunk('user/login', async (user: any, thunkAPI) => {
+export const getAccountDashboard = createAsyncThunk('user/login', async (_,thunkAPI) => {
     try {
-        return await businessService.addBusinessUser(user);
+        return await businessService.getAccountDashboard();
     } catch (err: any) {
         const message = (err.response && err.response.data && err.response.data.message) || err.message || err.toString;
 
@@ -208,17 +209,7 @@ export const updateChatStatus = createAsyncThunk('update user chat status', asyn
         return thunkAPI.rejectWithValue(message);
     }
 });
-
-export const restructureApi = createAsyncThunk('restructure text', async ({ content, channel }: { content: string; channel: string }, thunkAPI) => {
-    try {
-        return await businessService.restructureApi({ content, channel });
-    } catch (error: any) {
-        const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString;
-
-        return thunkAPI.rejectWithValue(message);
-    }
-});
-
+ 
 export const businessSlice = createSlice({
     name: 'business',
     initialState,
@@ -248,17 +239,21 @@ export const businessSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
             })
-            .addCase(addBusinessUser.rejected, (state, action) => {
+            .addCase(getAccountDashboard.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
             })
-            .addCase(addBusinessUser.pending, (state) => {
+            .addCase(getAccountDashboard.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(addBusinessUser.fulfilled, (state, action: any) => {
+            .addCase(getAccountDashboard.fulfilled, (state, action: any) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.Accounts = action.payload.data.accounts;
+                state.transactions = action.payload.data.transactions;
+
+                console.log(action.payload.data)
             })
 
             .addCase(getUsers.pending, (state, action: any) => {
