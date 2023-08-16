@@ -92,12 +92,11 @@ const updateTicketStatus = async (data: any) => {
     return response.data;
 };
 
-const restructureApi = async ({ content, channel }: { content: string; channel: string }) => {
-    const response = await Axios.put('tickets/restructure', { channel,content });
+const getAccountDashboard = async () => {
+    const response = await Axios.get('api/account/dashboard' );
     return response.data;
 };
 const userService = {
-    restructureApi,
     updateChatStatus,
     updateTicketStatus,
     sendMessage,
@@ -116,5 +115,6 @@ const userService = {
     companyFaq,
     deleteCompanyFaq,
     companyProfile,
+    getAccountDashboard,
 };
 export default userService;
