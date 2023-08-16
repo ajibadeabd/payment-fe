@@ -1,5 +1,4 @@
 import userReducer from './user.store/userSlice';
-import businessReducer from './business.store/businessSlice';
-import channelReducer from './channels/channelSlice';
+import businessReducer from './account.store/accountSlice';
 
-export { userReducer, channelReducer, businessReducer };
+export { userReducer,  businessReducer };
