@@ -26,7 +26,7 @@
 //           <Link to="/creditcards">CreditCards</Link>
 //         </li>
 //         <li>
-//           <Link to="/loan">Loan</Link>
+//           <Link to="/deposit">Loan</Link>
 //         </li>
 //         <li>
 //           <Link to="/services">Services</Link>
@@ -45,9 +45,6 @@
 //   );
 // };
 // export default Home;
-
-
-
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -79,50 +76,64 @@ const LandingPage: React.FC = () => {
   return (
     <div className="bg-gray-100  flex flex-col justify-center items-center">
       <h1 className="text-4xl font-bold mb-4">Welcome to Your Payment App</h1>
-      <p className="text-lg text-gray-600 mb-8">Leverage on Paystack for easy money transactions.</p>
+      <p className="text-lg text-gray-600 mb-8">
+        Leverage on Paystack for easy money transactions.
+      </p>
       <div className="flex flex-col space-x-4">
-      <div className="flex justify-center items-center">
-
-{[
-  {
-  title:"Borrow Money",
-  link:"/borrow",
-  className:"bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-4"
-}
-,{
-  title:"Send Money",
-  link:"/send",
-  className:"bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 mr-4"
-},{
-  title:" Receive Money",
-  link:"/receive",
-  className:"bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 mr-4"
-}
-
-].map((card,i)=> 
-   <Link key={i} to={card.link} className={card.className} >
-   {card.title} 
- </Link>
-
-)} 
+        <div className="flex justify-center items-center">
+          {[
+            {
+              title: "Borrow Money",
+              link: "/borrow",
+              className:
+                "bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mr-4",
+            },
+            {
+              title: "Send Money",
+              link: "/send",
+              className:
+                "bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 mr-4",
+            },
+            {
+              title: " Receive Money",
+              link: "/receive",
+              className:
+                "bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600 mr-4",
+            },
+          ].map((card, i) => (
+            <Link key={i} to={card.link} className={card.className}>
+              {card.title}
+            </Link>
+          ))}
         </div>
         <div className="space-y-4 mt-4 flex flex-wrap">
-  {cardContent.map((content, index) => (
-    <div key={index} className="bg-white p-4 rounded-md shadow-md w-[47%] sm:w-[47%] mt-10 mr-6 mb-8">
-      <h2 className="text-lg font-semibold mb-2">{content.title}</h2>
-      <p className="text-gray-600">{content.description}</p>
-    </div>
-  ))}
-</div>
+          {cardContent.map((content, index) => (
+            <div
+              key={index}
+              className="bg-white p-4 rounded-md shadow-md w-[47%] sm:w-[47%] mt-10 mr-6 mb-8"
+            >
+              <h2 className="text-lg font-semibold mb-2">{content.title}</h2>
+              <p className="text-gray-600">{content.description}</p>
+            </div>
+          ))}
+        </div>
 
-<div className="flex items-center mt-8 w-full">
-  <img src="https://kollo-cash.netlify.app/img/6.4204f82f.png" alt="App Screenshot" className="w-[48%] h-100 mr-4" />
-  <div>
-    <h3 className="text-lg font-semibold">Experience Seamless Transactions</h3>
-    <p className="text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et feugiat libero.</p>
-  </div>
-</div>
-
+        <div className="flex items-center mt-8 w-full">
+          <img
+            src="https://kollo-cash.netlify.app/img/6.4204f82f.png"
+            alt="App Screenshot"
+            className="w-[48%] h-100 mr-4"
+          />
+          <div>
+            <h3 className="text-lg font-semibold">
+              Experience Seamless Transactions
+            </h3>
+            <p className="text-gray-600">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et
+              feugiat libero.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

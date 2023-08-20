@@ -8,3 +8,4 @@ export { Slider } from "./Slider";
 export { Switch } from "./Switch";
 export { Text } from "./Text";
 export { Sidebar1 } from "./Sidebar1";
+export { Table } from "./table";

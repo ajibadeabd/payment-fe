@@ -123,7 +123,7 @@ const TransactionPage: React.FC = () => {
               </div>
               <div
                 className="common-pointer flex flex-col items-start justify-start p-[17px] w-full"
-                onClick={() => navigate("/loan")}
+                onClick={() => navigate("/deposit")}
               >
                 <div className="flex flex-row gap-5 items-start justify-start md:ml-[0] ml-[23px] w-[45%] md:w-full">
                   <Img
@@ -526,7 +526,7 @@ const TransactionPage: React.FC = () => {
                 activeSlideCSS="scale-[1.00]"
                 ref={sliderRef}
                 className="w-full"
-                items={[...Array(9)].map(() => (
+                items={[1].map(() => (
                   <React.Fragment key={Math.random()}>
                     <div className="bg-white-A700 flex flex-col gap-[15px] items-center justify-end mx-2.5 p-[17px] rounded-[25px]">
                       <div className="flex flex-col gap-[11px] items-center justify-start mt-[5px] w-[98%] md:w-full">

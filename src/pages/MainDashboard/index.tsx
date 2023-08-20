@@ -10,38 +10,53 @@ import { CloseSVG } from "../../assets/images";
 import { useDispatch, useSelector } from "react-redux";
 import { getAccountDashboard } from "store/account.store/accountSlice";
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const formatDate = (inputTimestamp) => {
+  const date = new Date(inputTimestamp);
+  const day = date.getUTCDate();
+  const monthIndex = date.getUTCMonth();
+  const year = date.getUTCFullYear();
+
+  const formattedDate = `${day} ${months[monthIndex]} ${year}`;
+  console.log(formattedDate);
+  return formattedDate; // Output: "14 August 2023"
+};
+
 const MainDashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { Accounts ,transactions } = useSelector((state: any) => state.account);
+  const { user } = useSelector((state: any) => state.user);
+  const { Accounts, transactions } = useSelector((state: any) => state.account);
   const [groupeightvalue, setGroupeightvalue] = React.useState<string>("");
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  
-  useEffect(()=>{
-    dispatch(getAccountDashboard() as any )
-  },[])
 
+  useEffect(() => {
+    console.log({ user });
+    dispatch(getAccountDashboard() as any);
+  }, []);
 
-  const formatDate = (inputTimestamp)=>{
-    const date = new Date(inputTimestamp);
-    const day = date.getUTCDate();
-    const monthIndex = date.getUTCMonth();
-    const year = date.getUTCFullYear();
-    
-    const formattedDate = `${day} ${months[monthIndex]} ${year}`;
-    console.log(formattedDate)
-return formattedDate; // Output: "14 August 2023"
-
-  }
   return (
     <>
-      <div className="bg-gray-100 flex sm:flex-col md:flex-col flex-row font-inter sm:gap-5 md:gap-5 items-start mx-auto pb-[30px] w-full">
-        < Sidebar1/>
-       
-        <div className="flex flex-1 flex-col gap-[25px] items-center justify-start md:px-5 w-full">
+      <div className="h-screen bg-gray-100 flex sm:flex-col md:flex-col flex-row font-inter sm:gap-5 md:gap-5 items-start mx-auto pb-[30px] w-full">
+        <div className="overflow-y-auto">
+          {/* <div className="hidden lg:visible"> */}
+          <Sidebar1 />
+        </div>
+
+        <div className="flex flex-1 flex-col gap-[25px] overflow-y-auto items-center justify-start md:px-5 w-full">
           <div className="bg-white-A700 border-b border-gray-300 border-solid flex md:flex-col flex-row md:gap-5 items-center justify-start p-5 w-full">
             <Text
               className="ml-5 md:ml-[0] sm:text-2xl md:text-[26px] text-[28px] text-gray-900"
@@ -98,6 +113,38 @@ return formattedDate; // Output: "14 August 2023"
               alt="EllipseOne"
             />
           </div>
+
+          <div className="flex justify-between space-x-4 w-[95%] ml-[2.5%]  mr-[2.5%]">
+            {/* Total Expenses Card */}
+            {[
+              {
+                title: "Total Expenses",
+                amount: "$5000",
+                color: "blue",
+              },
+              {
+                title: "Total Deposits",
+                amount: "$5000",
+                color: "green",
+              },
+              {
+                title: "Total Deposits",
+                amount: "$8000",
+                color: "yellow",
+              },
+              {
+                title: "Transfers",
+                amount: "12",
+                color: "red",
+              },
+            ].map((card, i) => (
+              <div className={`bg-${card.color}-200 p-4 rounded-lg w-1/4`}>
+                <h2 className="text-lg font-semibold mb-2">Total Expenses</h2>
+                <p className="text-xl">$5000</p>
+              </div>
+            ))}
+          </div>
+
           <div className="flex flex-col gap-6 items-center justify-start w-[94%] md:w-full">
             <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between w-full">
               <div className="flex md:flex-1 flex-col items-center justify-start w-[66%] md:w-full">
@@ -186,80 +233,85 @@ return formattedDate; // Output: "14 August 2023"
                         }
                       ></Input>
                     </div> */}
-                    {Accounts.map((account,i)=>{
-                 return    <div key={i} className="bg-indigo-500 flex md:flex-1 flex-col gap-[33px] items-center justify-end pt-6 rounded-[25px] w-[48%] md:w-full">
-                      <div className="flex flex-col gap-[29px] items-start justify-start w-[87%] md:w-full">
-                        <div className="flex flex-row items-start justify-between w-full">
-                          <div className="flex flex-col items-start justify-start">
-                            <Text
-                              className="text-white-A700 text-xs"
-                              size="txtLatoRegular12"
-                            >
-                              Balance
-                            </Text>
-                            <Text
-                              className="mt-1 text-white-A700 text-xl"
-                              size="txtInterRegular20"
-                            >
-                                ₦ {account.balance}
-                            </Text>
+                    {Accounts.map((account, i) => {
+                      return (
+                        <div
+                          key={i}
+                          className="bg-indigo-500 flex md:flex-1 flex-col gap-[33px] items-center justify-end pt-6 rounded-[25px] w-[48%] md:w-full"
+                        >
+                          <div className="flex flex-col gap-[29px] items-start justify-start w-[87%] md:w-full">
+                            <div className="flex flex-row items-start justify-between md:px-5 w-full">
+                              <div className="flex flex-col items-start justify-start">
+                                <Text
+                                  className="text-white-A700 text-xs"
+                                  size="txtLatoRegular12"
+                                >
+                                  Balance
+                                </Text>
+                                <Text
+                                  className="mt-1 text-white-A700 text-xl"
+                                  size="txtInterRegular20"
+                                >
+                                  ₦ {account.balance}
+                                </Text>
+                              </div>
+                              <Img
+                                className="h-[34px] md:h-auto object-cover w-[34px]"
+                                src="images/img_chipcard.png"
+                                alt="ChipCard One"
+                              />
+                            </div>
+                            {/* <div className="flex flex-row gap-[59px] items-center justify-start ml-0.5 md:ml-[0] w-[76%] md:w-full">
+                              <div className="flex flex-col items-start justify-start">
+                                <Text
+                                  className="text-white-A700_b2 text-xs"
+                                  size="txtInterRegular12"
+                                >
+                                  CARD HOLDER
+                                </Text>
+                                <Text
+                                  className="mt-1 text-[15px] text-white-A700"
+                                  size="txtInterRegular15"
+                                >
+                                  Eddy Cusuma
+                                </Text>
+                              </div>
+                              <div className="flex flex-col items-start justify-start">
+                                <Text
+                                  className="text-white-A700_b2 text-xs"
+                                  size="txtInterRegular12"
+                                >
+                                  VALID THRU
+                                </Text>
+                                <Text
+                                  className="mt-1 text-[15px] text-white-A700"
+                                  size="txtInterRegular15"
+                                >
+                                  12/22
+                                </Text>
+                              </div>
+                            </div> */}
                           </div>
-                          <Img
-                            className="h-[34px] md:h-auto object-cover w-[34px]"
-                            src="images/img_chipcard.png"
-                            alt="ChipCard One"
-                          />
+                          <Input
+                            name="Group319 One"
+                            placeholder={account._id}
+                            className="leading-[normal] md:text-xl p-0 placeholder:text-white-A700 sm:pl-5 sm:text-lg text-[22px] text-left text-white-A700 w-full"
+                            wrapClassName="bg-gradient  flex pl-6 py-[21px] rounded-bl-[25px] rounded-br-[25px] w-full"
+                            suffix={
+                              <Img
+                                className="ml-[35px] mr-6 my-5"
+                                src="images/img_contrast.svg"
+                                alt="contrast"
+                              />
+                            }
+                          ></Input>
                         </div>
-                        <div className="flex flex-row gap-[59px] items-center justify-start ml-0.5 md:ml-[0] w-[76%] md:w-full">
-                          <div className="flex flex-col items-start justify-start">
-                            <Text
-                              className="text-white-A700_b2 text-xs"
-                              size="txtInterRegular12"
-                            >
-                              CARD HOLDER
-                            </Text>
-                            <Text
-                              className="mt-1 text-[15px] text-white-A700"
-                              size="txtInterRegular15"
-                            >
-                              Eddy Cusuma
-                            </Text>
-                          </div>
-                          <div className="flex flex-col items-start justify-start">
-                            <Text
-                              className="text-white-A700_b2 text-xs"
-                              size="txtInterRegular12"
-                            >
-                              VALID THRU
-                            </Text>
-                            <Text
-                              className="mt-1 text-[15px] text-white-A700"
-                              size="txtInterRegular15"
-                            >
-                              12/22
-                            </Text>
-                          </div>
-                        </div>
-                      </div>
-                      <Input
-                        name="Group319 One"
-                        placeholder={account._id}
-                        className="leading-[normal] md:text-xl p-0 placeholder:text-white-A700 sm:pl-5 sm:text-lg text-[22px] text-left text-white-A700 w-full"
-                        wrapClassName="bg-gradient  flex pl-6 py-[21px] rounded-bl-[25px] rounded-br-[25px] w-full"
-                        suffix={
-                          <Img
-                            className="ml-[35px] mr-6 my-5"
-                            src="images/img_contrast.svg"
-                            alt="contrast"
-                          />
-                        }
-                      ></Input>
-                    </div>
-                  })}
-
+                      );
+                    })}
                   </div>
                 </div>
               </div>
+
               <div className="flex md:flex-1 flex-col gap-5 items-start justify-start w-[32%] md:w-full">
                 <Text
                   className="text-[22px] text-bluegray-900 sm:text-lg md:text-xl"
@@ -268,64 +320,61 @@ return formattedDate; // Output: "14 August 2023"
                   Recent Transaction
                 </Text>
                 <List
-                  className="bg-white-A700 flex flex-col gap-2.5 items-center p-6 sm:px-5 rounded-[25px] w-full"
+                  className="bg-white-A700 flex flex-col gap-2.5 items-center p-6 sm:px-5 rounded-[25px] w-full overflow-auto max-h-[350px]"
                   orientation="vertical"
                 >
-                  {transactions.map((transaction,key)=>{
+                  {transactions.map((transaction, key) => {
+                    return (
+                      <div className="flex flex-1 flex-row   items-center justify-start w-full ">
+                        <Button className="bg-gray-102 flex h-[55px] items-center justify-center p-[13px] rounded-[50%] w-[55px]">
+                          <Img
+                            className="h-7"
+                            src="images/img_videocamera.svg"
+                            alt="videocamera"
+                          />
+                        </Button>
+                        <div className="flex flex-col gap-[7px] items-start justify-start ml-[17px]">
+                          <Text
+                            className="text-base text-bluegray-600"
+                            size="txtInterMedium16"
+                          >
+                            {/* Deposit from my Card */}
+                            {transaction.description}
+                          </Text>
 
-                 return  <div className="flex flex-1 flex-row items-center justify-start w-full">
-                    <Button className="bg-gray-102 flex h-[55px] items-center justify-center p-[13px] rounded-[50%] w-[55px]">
-                      <Img
-                        className="h-7"
-                        src="images/img_videocamera.svg"
-                        alt="videocamera"
-                      />
-                    </Button>
-                    <div className="flex flex-col gap-[7px] items-start justify-start ml-[17px]">
-                      <Text
-                        className="text-base text-bluegray-600"
-                        size="txtInterMedium16"
-                      >
-                        {/* Deposit from my Card */}
-                      {transaction.description}
-
-                      </Text>
-                     
-
-                      <Text
-                        className="text-[15px] text-bluegray-400"
-                        size="txtInterRegular15Bluegray400"
-                      >
-                        {/* 28 January 2021 */}
-                        {formatDate(transaction.created_at)}
-                      </Text>
-
-                    </div>
-                    <div 
-                      className="flex flex-col" 
-                      >
-                    
-                    
-                    <Text
-    className={`ml-[13px] text-base ${
-      transaction.status === 'success' ? 'text-green-600' : 'text-yellow-500'
-    }`}
-    size="txtInterMedium16"
-  >
-    {transaction.status === 'success' ? 'Success' : 'Pending'}
-  </Text>
-  <Text
-                      className="ml-[13px] text-base text-red-700"
-                      size="txtInterMedium16Red700"
-                    >
-                    ₦ {transaction.amount}
-                    </Text>
-  </div>
-
-                  </div> 
+                          <Text
+                            className="text-[15px] text-bluegray-400"
+                            size="txtInterRegular15Bluegray400"
+                          >
+                            {/* 28 January 2021 */}
+                            {formatDate(transaction.created_at)}
+                          </Text>
+                        </div>
+                        <div className="flex flex-col">
+                          <Text
+                            className={`ml-[13px] text-base ${
+                              transaction.status === "success"
+                                ? "text-green-600"
+                                : transaction.receiver_id === user?._id
+                                ? "text-red-500"
+                                : "text-yellow-500"
+                            }`}
+                            size="txtInterMedium16"
+                          >
+                            {transaction.status === "success"
+                              ? "Success"
+                              : "Pending"}
+                          </Text>
+                          <Text
+                            className="ml-[13px] text-base text-red-700"
+                            size="txtInterMedium16Red700"
+                          >
+                            ₦ {transaction.amount}
+                          </Text>
+                        </div>
+                      </div>
+                    );
                   })}
-
-                  
                 </List>
               </div>
             </div>
@@ -545,6 +594,61 @@ return formattedDate; // Output: "14 August 2023"
                 </div>
               </div> */}
             </div>
+
+            <div className="flex md:flex-col flex-row gap-[30px]   items-center justify-between w-full">
+              <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+                <h2 className="text-2xl font-semibold mb-4">Deposit Form</h2>
+                <form action="/deposit" method="post">
+                  <label className="block mb-2" htmlFor="currency">
+                    Select Currency:
+                  </label>
+                  <select
+                    className="border rounded p-2 w-full mb-4"
+                    id="currency"
+                    name="currency"
+                  >
+                    <option value="usd">USD</option>
+                    <option value="eur">EUR</option>
+                    <option value="gbp">GBP</option>
+                    {/* Add more currency options as needed */}
+                  </select>
+                  <label className="block mb-2" htmlFor="amount">
+                    Amount to Deposit:
+                  </label>
+                  <input
+                    className="border rounded p-2 w-full mb-4"
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    step="0.01"
+                    required
+                  />
+                  <button
+                    className="bg-blue-500 text-white py-2 px-4 rounded"
+                    type="submit"
+                  >
+                    Deposit
+                  </button>
+                </form>
+              </div>
+              {/* <div className="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="px-6 py-4">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    Payment Link
+                  </h2>
+                  <p className="mt-2 text-gray-600">
+                    Click the link below to make a payment:
+                  </p>
+                  <a
+                    href="YOUR_PAYMENT_LINK_HERE"
+                    className="mt-4 block text-blue-500 hover:underline"
+                  >
+                    Make Payment
+                  </a>
+                </div>
+              </div> */}
+            </div>
+
             <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between w-full">
               <div className="flex md:flex-1 flex-col gap-5 items-start justify-start w-[41%] md:w-full">
                 <Text
