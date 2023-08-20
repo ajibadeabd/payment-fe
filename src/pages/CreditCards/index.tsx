@@ -127,7 +127,7 @@ const CreditCardsPage: React.FC = () => {
               </div>
               <div
                 className="common-pointer flex flex-col items-start justify-start p-[17px] w-full"
-                onClick={() => navigate("/loan")}
+                onClick={() => navigate("/deposit")}
               >
                 <div className="flex flex-row gap-5 items-start justify-start md:ml-[0] ml-[23px] w-[45%] md:w-full">
                   <Img
